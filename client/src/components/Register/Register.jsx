@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Button, Form, Input,
 } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { regUser } from '../../Redux/Actions/userActions';
 
 function Register() {
@@ -11,7 +11,6 @@ function Register() {
   const onFinish = (values) => {
     dispatch(regUser(values));
     console.log('Success:', values);
-    window.location.replace('/my-account');
   };
 
   // const { name } = useSelector((state) => state);

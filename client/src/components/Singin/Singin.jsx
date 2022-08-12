@@ -2,7 +2,7 @@ import React from 'react';
 import {
   Button, Checkbox, Form, Input,
 } from 'antd';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { getUser } from '../../Redux/Actions/userActions';
 
 function Singin() {
@@ -10,10 +10,6 @@ function Singin() {
   const onFinish = (values) => {
     dispatch(getUser(values));
     console.log('Success:', values);
-    const { user } = useSelector((state) => state);
-    if (user.name) {
-      window.location.replace('/my-account');
-    }
   };
 
   const onFinishFailed = (errorInfo) => {

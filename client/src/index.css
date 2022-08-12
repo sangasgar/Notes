@@ -19,3 +19,8 @@ code {
 .NavBar {
   font-size: large;
 }
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

@@ -8,6 +8,7 @@ function NavBarReg() {
   const dispatch = useDispatch();
   const logoutUser = () => {
     dispatch(logout);
+    window.location.assign('/');
   };
   return (
     <div className="NavBar">

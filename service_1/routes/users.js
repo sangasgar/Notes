@@ -19,8 +19,10 @@ router.route('/')
         const userReg = await Users.findOne({ where: { email } });
         const userJson = JSON.parse(JSON.stringify(userReg));
         if (await bcrypt.compare(password, userJson.password)) {
-          const token = jwt.sign({ name: userJson.name, email: userJson.email }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
-          const user = { name: userJson.name, email: userJson.email, token };
+          const token = jwt.sign({ id: userJson.id, name: userJson.name, email: userJson.email }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
+          const user = {
+            id: userJson.id, name: userJson.name, email: userJson.email, token,
+          };
           return res.json(user);
         }
       } catch (error) {
@@ -29,13 +31,33 @@ router.route('/')
     }
     return res.json({ error: 'not all fields are filled' });
   })
-  .put((req, res, next) => {
-    console.log(req.body);
-    res.json(req.body);
+  .put(async (req, res, next) => {
+    const { id, name, email } = req.body;
+    if (id && name && email) {
+      try {
+        const userBd = await Users.create({ where: id });
+        await userBd.update({ name, email });
+        await userBd.save();
+        const user = { id: userBd.id, name: userBd.name, email: userBd.email };
+        return res.json(user);
+      } catch (error) {
+        return res.json({ error: 'Connection error' });
+      }
+    }
+    res.json({ error: 'not all fields are filled' });
   })
-  .delete((req, res, next) => {
-    console.log(req.body);
-    res.json(req.body);
+  .delete(async (req, res, next) => {
+    const { id } = req.body;
+    if (id) {
+      try {
+        const user = await User.create({ where: id });
+        await user.destroy();
+        return res.sendStatus(200);
+      } catch (error) {
+        return res.json({ error: 'Connection error' });
+      }
+    }
+    return res.json({ error: 'error id' });
   });
 router.route('/register')
   .post(async (req, res, next) => {
@@ -47,9 +69,11 @@ router.route('/register')
           return res.json({ error: 'User already register' });
         }
         const userReg = await Users.create({ email, name, password: await bcrypt.hash(password, Number(process.env.SALTROUNDS)) });
-        const token = jwt.sign({ name: userReg.name, email: userReg.email }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
+        const token = jwt.sign({ id: userReg.id, name: userReg.name, email: userReg.email }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
         const userRegJson = JSON.parse(JSON.stringify(userReg));
-        const user = { name: userRegJson.name, email: userRegJson.email, token };
+        const user = {
+          id: userRegJson.id, name: userRegJson.name, email: userRegJson.email, token,
+        };
         return res.json(user);
       } catch (error) {
         return res.json({ error: 'Connection error' });

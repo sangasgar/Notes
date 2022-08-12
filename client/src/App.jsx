@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   Routes,
   Route,
+  Navigate,
 } from 'react-router-dom';
 import MyAccount from './components/MyAccount/MyAccount';
 import NavBar from './components/NavBar/NavBar';
@@ -21,9 +22,9 @@ function App() {
     <div className="App">
       {user.name ? <NavBarReg /> : <NavBar />}
       <Routes>
-        <Route path="/" element={<Singin />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/my-account" element={<MyAccount />} />
+        <Route path="/" element={user.name ? <Navigate replace to="/my-account" /> : <Singin />} />
+        <Route path="/register" element={user.name ? <Navigate replace to="/my-account" /> : <Register />} />
+        <Route path="/my-account" element={!user.name ? <Navigate replace to="/" /> : <MyAccount />} />
       </Routes>
     </div>
   );
