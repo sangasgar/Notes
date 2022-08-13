@@ -13,6 +13,15 @@ function NavBarReg() {
   return (
     <div className="NavBar">
       <Menu mode="horizontal" defaultSelectedKeys={['my-account']}>
+        <Menu.Item key="maim">
+          <Link to="/">Главная</Link>
+        </Menu.Item>
+        <Menu.Item key="posts-add">
+          <Link to="/posts/add">Добавить запись</Link>
+        </Menu.Item>
+        <Menu.Item key="posts">
+          <Link to="/my-posts">Мои записи</Link>
+        </Menu.Item>
         <Menu.Item key="my-account">
           <Link to="/my-account">Мой аккаунт</Link>
         </Menu.Item>

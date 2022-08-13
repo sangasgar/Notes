@@ -6,8 +6,11 @@ import {
   Navigate,
 } from 'react-router-dom';
 import MyAccount from './components/MyAccount/MyAccount';
+import MyPosts from './components/MyPosts/MyPosts';
 import NavBar from './components/NavBar/NavBar';
 import NavBarReg from './components/NavBarReg/NavBarReg';
+import PostAdd from './components/Posts/PostAdd/PostAdd';
+import Posts from './components/Posts/Posts';
 import Register from './components/Register/Register';
 import Singin from './components/Singin/Singin';
 import { chekUser } from './Redux/Actions/userActions';
@@ -22,9 +25,12 @@ function App() {
     <div className="App">
       {user.name ? <NavBarReg /> : <NavBar />}
       <Routes>
-        <Route path="/" element={user.name ? <Navigate replace to="/my-account" /> : <Singin />} />
+        <Route path="/" element={<Posts />} />
+        <Route path="/singin" element={user.name ? <Navigate replace to="/my-account" /> : <Singin />} />
         <Route path="/register" element={user.name ? <Navigate replace to="/my-account" /> : <Register />} />
         <Route path="/my-account" element={!user.name ? <Navigate replace to="/" /> : <MyAccount />} />
+        <Route path="/posts/add" element={!user.name ? <Navigate replace to="/" /> : <PostAdd />} />
+        <Route path="/my-posts" element={!user.name ? <Navigate replace to="/" /> : <MyPosts />} />
       </Routes>
     </div>
   );

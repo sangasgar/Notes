@@ -1,13 +1,13 @@
 import React from 'react';
 import {
-  Button, Form, Input,
+  Button, Form, Input, Typography,
 } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { regUser } from '../../Redux/Actions/userActions';
 
 function Register() {
   const dispatch = useDispatch();
-
+  const { Text } = Typography;
   const onFinish = (values) => {
     dispatch(regUser(values));
     console.log('Success:', values);
@@ -18,6 +18,7 @@ function Register() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const { user } = useSelector((state) => state);
   return (
     <div className="page">
       <Form
@@ -36,6 +37,7 @@ function Register() {
         autoComplete="off"
       >
         <h1>Регистрация</h1>
+        {user.error ? <Text type="danger">Такой пользователь уже существует пожалуйста войдите в систему</Text> : null}
         <Form.Item
           label="Email"
           name="email"

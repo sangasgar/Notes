@@ -9,8 +9,7 @@ const auth = require('../middleWave/auth');
 
 router.route('/')
   .get((req, res, next) => {
-    console.log(req.body);
-    res.send('respond with a resource');
+    res.sendStatus(200);
   })
   .post(async (req, res, next) => {
     const { email, password } = req.body;
@@ -35,7 +34,7 @@ router.route('/')
     const { id, name, email } = req.body;
     if (id && name && email) {
       try {
-        const userBd = await Users.create({ where: id });
+        const userBd = await Users.create({ where: { id } });
         await userBd.update({ name, email });
         await userBd.save();
         const user = { id: userBd.id, name: userBd.name, email: userBd.email };
@@ -50,7 +49,7 @@ router.route('/')
     const { id } = req.body;
     if (id) {
       try {
-        const user = await User.create({ where: id });
+        const user = await Users.create({ where: id });
         await user.destroy();
         return res.sendStatus(200);
       } catch (error) {

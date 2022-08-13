@@ -15,7 +15,6 @@ function Singin() {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
   return (
     <div className="page">
       <Form
