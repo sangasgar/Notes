@@ -8,7 +8,7 @@ const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/posts');
 
 const app = express();
-const PORT = process.env.PORT || 3003;
+const { PORT } = process.env;
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,

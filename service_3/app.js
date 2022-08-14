@@ -8,7 +8,7 @@ const nodemailer = require('nodemailer');
 const indexRouter = require('./routes/index');
 
 const app = express();
-const PORT = process.env.PORT || 3011;
+const PORT = 3100;
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true,
