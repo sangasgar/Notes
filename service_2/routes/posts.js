@@ -1,4 +1,5 @@
 const express = require('express');
+const amqplib = require('amqplib');
 
 const router = express.Router();
 const { Posts } = require('../db/models');
@@ -50,7 +51,6 @@ router.route('/')
 router.route('/:id')
   .delete(async (req, res, next) => {
     const { id } = req.params;
-    console.log({ id });
     if (id) {
       try {
         await Posts.destroy({ where: { id } });
@@ -60,6 +60,23 @@ router.route('/:id')
       }
     }
     return res.json({ error: 'error id' });
+  });
+router.route('/sender')
+  .post(async (req, res, next) => {
+    console.log(req.body);
+    const { email, subject, body } = req.body;
+    console.log(email, subject, body);
+    if (email && subject && body) {
+      (async () => {
+        const queue = 'tasks';
+        const conn = await amqplib.connect('amqp://guest:guest@localhost');
+        // Sender
+        const ch2 = await conn.createChannel();
+        ch2.sendToQueue(queue, Buffer.from(`${email}|${subject}|${body}`.toString()));
+      })();
+      return res.json({ status: 'Email send!' });
+    }
+    return res.json({ statusError: 'error send' });
   });
 
 module.exports = router;

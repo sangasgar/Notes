@@ -16,6 +16,9 @@ router.route('/')
     if (email && password) {
       try {
         const userReg = await Users.findOne({ where: { email } });
+        if (!userReg) {
+          return res.json({ error: 'User not found' });
+        }
         const userJson = JSON.parse(JSON.stringify(userReg));
         if (await bcrypt.compare(password, userJson.password)) {
           const token = jwt.sign({ id: userJson.id, name: userJson.name, email: userJson.email }, process.env.TOKEN_SECRET, { expiresIn: '6h' });

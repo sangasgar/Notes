@@ -1,20 +1,21 @@
 import React from 'react';
 import {
-  Button, Checkbox, Form, Input,
+  Button, Checkbox, Form, Input, Typography,
 } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getUser } from '../../Redux/Actions/userActions';
 
 function Singin() {
+  const { Text } = Typography;
   const dispatch = useDispatch();
   const onFinish = (values) => {
     dispatch(getUser(values));
-    console.log('Success:', values);
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const { user } = useSelector((state) => state);
   return (
     <div className="page">
       <Form
@@ -33,6 +34,7 @@ function Singin() {
         autoComplete="off"
       >
         <h1>Вход</h1>
+        {user.error ? <Text type="danger">Пользователь не найден, зарегистрируйтесь</Text> : null}
         <Form.Item
           label="Email"
           name="email"

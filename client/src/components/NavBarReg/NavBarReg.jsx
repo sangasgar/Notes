@@ -22,6 +22,9 @@ function NavBarReg() {
         <Menu.Item key="posts">
           <Link to="/my-posts">Мои записи</Link>
         </Menu.Item>
+        <Menu.Item key="send">
+          <Link to="/send">Отправить письмо</Link>
+        </Menu.Item>
         <Menu.Item key="my-account">
           <Link to="/my-account">Мой аккаунт</Link>
         </Menu.Item>

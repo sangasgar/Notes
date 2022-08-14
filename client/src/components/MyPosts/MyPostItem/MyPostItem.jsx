@@ -6,11 +6,12 @@ import { updatePost, deletePost } from '../../../Redux/Actions/postAction';
 const { Title, Paragraph } = Typography;
 
 function MyPostItem({
-  name, id, description, userId, value, setValue, setValueDelete, valueDelete,
+  name, id, description, userId, setValueDelete, setValueChange,
 }) {
   // const [value, setValue] = useState(false);
   const [valueName, setValueName] = useState(name);
   const [valueDescription, setValueDescription] = useState(description);
+  const [value, setValue] = useState(false);
   const edit = () => {
     setValue(true);
   };
@@ -23,14 +24,11 @@ function MyPostItem({
       name: valueName, description: valueDescription, id, userId,
     }));
     setValue(false);
+    setValueChange(true);
   };
   const deletePostOne = () => {
     dispatch(deletePost(id));
-    if (valueDelete === false) {
-      setValueDelete(true);
-    } else {
-      setValueDelete(false);
-    }
+    setValueDelete(true);
   };
   const descriptionHandler = (event) => {
     event.preventDefault();
