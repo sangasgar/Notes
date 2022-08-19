@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from 'react-router-dom';
+import Chat from './components/Chat/Chat';
 import MyAccount from './components/MyAccount/MyAccount';
 import MyPosts from './components/MyPosts/MyPosts';
 import NavBar from './components/NavBar/NavBar';
@@ -33,6 +34,7 @@ function App() {
         <Route path="/my-account" element={!user.name ? <Navigate replace to="/" /> : <MyAccount />} />
         <Route path="/posts/add" element={!user.name ? <Navigate replace to="/" /> : <PostAdd />} />
         <Route path="/my-posts" element={!user.name ? <Navigate replace to="/" /> : <MyPosts />} />
+        <Route path="/chat" element={!user.name ? <Navigate replace to="/" /> : <Chat />} />
       </Routes>
     </div>
   );

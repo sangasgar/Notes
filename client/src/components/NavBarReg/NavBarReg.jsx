@@ -28,6 +28,9 @@ function NavBarReg() {
         <Menu.Item key="my-account">
           <Link to="/my-account">Мой аккаунт</Link>
         </Menu.Item>
+        <Menu.Item key="chat">
+          <Link to="/chat">Чат</Link>
+        </Menu.Item>
         <Menu.Item key="my-account">
           <Link onClick={logoutUser} to="/#">Выход</Link>
         </Menu.Item>

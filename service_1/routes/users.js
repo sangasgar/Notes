@@ -35,12 +35,16 @@ router.route('/')
   })
   .put(async (req, res, next) => {
     const { id, name, email } = req.body;
+
     if (id && name && email) {
       try {
-        const userBd = await Users.create({ where: { id } });
-        await userBd.update({ name, email });
-        await userBd.save();
-        const user = { id: userBd.id, name: userBd.name, email: userBd.email };
+        const userBd = await Users.update({ name, email }, { where: { id } });
+        const userFind = await Users.findOne({ where: { id } });
+        const userJson = JSON.parse(JSON.stringify(userFind));
+        const token = jwt.sign({ id: userJson.id, name: userJson.name, email: userJson.email }, process.env.TOKEN_SECRET, { expiresIn: '6h' });
+        const user = {
+          id: userJson.id, name: userJson.name, email: userJson.email, token,
+        };
         return res.json(user);
       } catch (error) {
         return res.json({ error: 'Connection error' });
